@@ -1,4 +1,4 @@
-# Import libraries
+# import libraries
 import cv2
 import numpy as np
 
@@ -10,16 +10,16 @@ def nothing(x):
 cap = cv2.VideoCapture(0)
 
 # set up trackbar
-trackbar = np.zeros((100,512,3), np.uint8)
+trackbar = np.zeros((200,560,3), np.uint8)
 cv2.namedWindow('Parameter')
-cv2.createTrackbar('H min','Parameter',0,255,nothing)
-cv2.createTrackbar('S min','Parameter',0,255,nothing)
-cv2.createTrackbar('V min','Parameter',0,255,nothing)
-cv2.createTrackbar('H max','Parameter',0,255,nothing)
-cv2.createTrackbar('S max','Parameter',0,255,nothing)
-cv2.createTrackbar('V max','Parameter',0,255,nothing)
-cv2.createTrackbar('E kernel','Parameter',0,20,nothing)
-cv2.createTrackbar('D kernel','Parameter',0,20,nothing)
+cv2.createTrackbar('Hue min','Parameter',0,255,nothing)
+cv2.createTrackbar('Sat min','Parameter',0,255,nothing)
+cv2.createTrackbar('Val min','Parameter',0,255,nothing)
+cv2.createTrackbar('Hue max','Parameter',0,255,nothing)
+cv2.createTrackbar('Sat max','Parameter',0,255,nothing)
+cv2.createTrackbar('Val max','Parameter',0,255,nothing)
+cv2.createTrackbar('Erode kernel size','Parameter',0,20,nothing)
+cv2.createTrackbar('Dilate kernel size','Parameter',0,20,nothing)
 switch = '1'
 cv2.createTrackbar(switch, 'Parameter',0,1,nothing)
 
@@ -30,24 +30,25 @@ while(True):
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     
     # read parameters
-    h_min = cv2.getTrackbarPos('H min','Parameter')
-    s_min = cv2.getTrackbarPos('S min','Parameter')
-    v_min = cv2.getTrackbarPos('V min','Parameter')
-    h_max = cv2.getTrackbarPos('H max','Parameter')
-    s_max = cv2.getTrackbarPos('S max','Parameter')
-    v_max = cv2.getTrackbarPos('V max','Parameter')
+    h_min = cv2.getTrackbarPos('Hue min','Parameter')
+    s_min = cv2.getTrackbarPos('Sat min','Parameter')
+    v_min = cv2.getTrackbarPos('Val min','Parameter')
+    h_max = cv2.getTrackbarPos('Hue max','Parameter')
+    s_max = cv2.getTrackbarPos('Sat max','Parameter')
+    v_max = cv2.getTrackbarPos('Val max','Parameter')
     swi = cv2.getTrackbarPos(switch,'Parameter')
-    erode_kernel_size =  cv2.getTrackbarPos('E kernel','Parameter')
+    erode_kernel_size =  cv2.getTrackbarPos('Erode kernel size','Parameter')
     erode_kernel = np.ones((erode_kernel_size,erode_kernel_size),np.uint8)
     #erode_kernel = np.ones((5,5),np.uint8)
-    dilate_kernel_size =  cv2.getTrackbarPos('D kernel','Parameter')
+    dilate_kernel_size =  cv2.getTrackbarPos('Dilate kernel size','Parameter')
     dilate_kernel = np.ones((dilate_kernel_size,dilate_kernel_size),np.uint8)
     #dilate_kernel = np.ones((13,13),np.uint8)
     if swi == 0:
         trackbar[:] = 0
     else:
-        trackbar[:] = ([h_min,s_min,v_min])
-    
+        trackbar[:] = (np.array([h_min,s_min,v_min])+np.array([h_max,s_max,v_max]))/2
+        trackbar = cv2.cvtColor(trackbar, cv2.COLOR_HSV2BGR)
+
     # filter color
     lower_color = np.array([h_min,s_min,v_min])
     #lower_color = np.array([30,65,160])
@@ -87,8 +88,9 @@ while(True):
     
     # display steps
     cv2.imshow('Parameter',trackbar)
+    cv2.moveWindow('Parameter',20,0)
     cv2.imshow('Input',frame)
-    cv2.moveWindow('Input',600,0)
+    cv2.moveWindow('Input',620,0)
     cv2.imshow('HSV',hsv)
     cv2.moveWindow('HSV',1250,0)
     cv2.imshow('Mask',bin_color_img)

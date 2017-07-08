@@ -1,13 +1,15 @@
+# Import libraries
 import cv2
 import numpy as np
 
+# define empty method for trackbar
 def nothing(x):
     pass
 
-# 1 VIDEO CAPTURE
+# capture video
 cap = cv2.VideoCapture(0)
 
-# 2 TRACKBAR
+# set up trackbar
 trackbar = np.zeros((100,512,3), np.uint8)
 cv2.namedWindow('Parameter')
 cv2.createTrackbar('H min','Parameter',0,255,nothing)
@@ -21,14 +23,13 @@ cv2.createTrackbar('D kernel','Parameter',0,20,nothing)
 switch = '1'
 cv2.createTrackbar(switch, 'Parameter',0,1,nothing)
 
-# 3 LOOP
 while(True):
     
-    # 4 CAPTURE
+    # capture current image
     ret, frame = cap.read()
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     
-    # 5 READ PARAMETERS
+    # read parameters
     h_min = cv2.getTrackbarPos('H min','Parameter')
     s_min = cv2.getTrackbarPos('S min','Parameter')
     v_min = cv2.getTrackbarPos('V min','Parameter')
@@ -47,7 +48,7 @@ while(True):
     else:
         trackbar[:] = ([h_min,s_min,v_min])
     
-    # 6 FILTER COLOR
+    # filter color
     lower_color = np.array([h_min,s_min,v_min])
     #lower_color = np.array([30,65,160])
     upper_color = np.array([h_max,s_max,v_max])
@@ -55,13 +56,16 @@ while(True):
     bin_color_img = cv2.inRange(hsv, lower_color, upper_color)
     #filtered = cv2.bitwise_and(frame,frame, mask= bin_color_img)
 
-    # 7 ERODE
+    # erode image
     bin_erode_img = cv2.erode(bin_color_img,erode_kernel)
-    # 8 DILATE
+
+    # dilate image
     bin_dilate_img = cv2.dilate(bin_erode_img,dilate_kernel)
 
-    # 9 FIND CONTOURS
+    # find contours
     contour_image, contours, hierarchy = cv2.findContours(bin_dilate_img, cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
+
+    # fit bounding box
     try: hierarchy = hierarchy[0]
     except: hierarchy = []
 
@@ -81,7 +85,7 @@ while(True):
     if max_x - min_x > 0 and max_y - min_y > 0:
         cv2.rectangle(output_img, (min_x, min_y), (max_x, max_y), (255, 0, 0), 2)
     
-    # 10 DISPLAY
+    # display steps
     cv2.imshow('Parameter',trackbar)
     cv2.imshow('Input',frame)
     cv2.moveWindow('Input',600,0)
@@ -99,6 +103,6 @@ while(True):
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
-# 11 RELEASE
+# release stream
 cap.release()
 cv2.destroyAllWindows()

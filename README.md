@@ -2,8 +2,8 @@
 Python Code to detect a colored object
 
 # Dependencies:
-OpenCV 3.2.0
-Python 2.7
+OpenCV 3.2.0,
+Python 2.7,
 Numpy Library
 
 # Workflow:

@@ -15,3 +15,5 @@ Code pipelin:
   9. Find contours and fit rectangle around detection
   10. Display each step
   11. Release VideoCapture object
+
+A C++ solution can be found here: https://www.youtube.com/watch?v=bSeFrPrqZ2A

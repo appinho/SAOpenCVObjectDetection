@@ -1,5 +1,5 @@
 # opencv_color_object_detection
-Python Code to detect a colored object
+Detect a colored object in Python
 
 # Dependencies:
 OpenCV 3.2.0,

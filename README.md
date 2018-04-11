@@ -1,4 +1,4 @@
-# Computer Vision Object Detection Methods with OpenCV
+# Object Detection Methods with OpenCV
 
 ## Color Detection
 ![](ColorDetection/green_elephant.png)

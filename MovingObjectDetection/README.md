@@ -1,10 +1,5 @@
-# opencv_moving_object_detection
+# Moving Object Detection
 Python Code to detect a moving object with OpenCV 3.2.0 library
-
-# Dependencies:
-OpenCV 3.2.0,
-Python 2.7,
-Numpy Library,
 
 # Workflow:
   1. Read avi video

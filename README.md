@@ -1,4 +1,4 @@
-# Computer Vision Object Detection with OpenCV 3.2.0
+# Computer Vision Object Detection Methods with OpenCV
 
 ## Color Detection
 ![](ColorDetection/green_elephant.png)
@@ -9,4 +9,3 @@
 ## Dependencies:
 OpenCV 3.2.0  
 Python 2.7  
-Numpy Library  

@@ -1,10 +1,5 @@
-# opencv_color_object_detection
+# Color Detection
 Detect a colored object in Python
-
-# Dependencies:
-OpenCV 3.2.0,
-Python 2.7,
-Numpy Library
 
 # Workflow:
   1. Create Trackbar to adjust parameters                 (Top left image)

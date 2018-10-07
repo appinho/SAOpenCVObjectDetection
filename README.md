@@ -1,4 +1,7 @@
 SAOpenCVObjectDetection
+========================
+
+Various Object Detection Methods based on OpenCV techniques
 
 ### Color Detection
 ![](ColorDetection/green_elephant.png)
